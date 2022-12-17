@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <main>
+        <section class="AddNew">
+            <form action="" class="item">
+                <input type="text" id="NewItem" placeholder="Wprowadz nowy elemant">
+                <button id="AddItem" class="button" title="Dodaj nowy element" >+</button>
+            </form>
+        </section>
+
+        <section class="list">
+            <div class="ListHeder">
+                <h1>To Do List</h1>
+                <button id="clear" class="button" title="Wyczyść liste">Clear</button>
+
+            </div>
+            <hr />
+            <div class="listItems">
+                <div class="item">
+                    <input type="checkbox" id="1">
+                    <label for="1">eat</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="2">
+                    <label for="2">sleep</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="3">
+                    <label for="3">code</label>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    <script src="./js/app.js"></script>
+</body>
+</html>
