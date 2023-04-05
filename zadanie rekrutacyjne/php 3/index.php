@@ -26,7 +26,7 @@ class RankingTable
         $this->players[$playerName]['gamesPlayed']++;
     }
 
-    public function playerRank($rank) //sortowanie wedle wytycznych czyli po punktach 
+    public function playerRank() //sortowanie wedle wytycznych czyli po punktach 
     {
         uasort($this->players, function($a, $b) {
             if ($a['score'] !== $b['score']) {
@@ -38,9 +38,11 @@ class RankingTable
             }
         });
 
-        $keys = array_keys($this->players);
-        return $keys[$rank - 1];
+        return array_keys($this->players);
+        
     }
+
+
     
 }
 
@@ -54,9 +56,12 @@ $table->recordResult('Maks', 3);
 $table->recordResult('Rafal', 4);
 $table->recordResult('mateusz', 1);
 $table->recordResult('Monika', 5);
-echo $table->playerRank(1); // zwraca gracza który jest pierwszy w liście 
+//echo $table->playerRank(1); 
 
-
+echo " Ranking:\n";// zwraca liste graczy od najlepszego do najgorszego 
+foreach ($table->playerRank() as $rank => $player) {
+    echo $rank + 1 . ". " . $player . "\n";
+}
 ?>
 
 
