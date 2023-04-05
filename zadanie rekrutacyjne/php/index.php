@@ -8,12 +8,25 @@
 </head>
 <body>
     <h1>hello world!</h1>
+
+    <form action="index.php" method="post">
+    <label for="text">1</label>
+    <input type="text" name="text"><br><br>
+
+    <label >2</label>
+    <input type="number" name="numer"><br><br>
+    <input type="submit" value="Submit">
+    </form>
+
+    <p>Podana wartość: <?php echo $_POST["text"]; ?><?php echo $_POST["numer"]; ?>  </p>
+    <p>Podana wartość tylko liczby </p>
+
     <?php
 
 //klasa Pipeline
 class Pipeline
 {
-    public static function make($functions)
+    public static function make(...$functions)
     {
         return function ($arg) use ($functions) {  
             foreach ($functions as $function) {
@@ -23,15 +36,16 @@ class Pipeline
         };
     }
 }
+//klasa TextInput
 
-// przykładowe uzycie metody zawarte w zadaniu
-$pipeline = Pipeline::make(
+
+
+// wywołanie 
+$pipeline = Pipeline::make( //przykładowe uzycie metody zawarte w zadaniu
     function($var) { return $var * 3; },
     function($var) { return $var + 1; },
     function($var) { return $var / 2; }
 );
-// wywołanie 
-echo $pipeline(3);
 
 
     ?>
