@@ -9,7 +9,7 @@ const input_content = ref('')
 const input_sum = ref('')
 const input_auto = ref('')
 
-const input_category = ref(null)
+const input_category = ref('name')
 
 
 
