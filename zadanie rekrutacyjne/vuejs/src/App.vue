@@ -1,85 +1,106 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import{ ref, onMounted, computed, watch} from 'vue'
+
+const clients = ref([])
+const name = ref('')
+
+const input_name = ref('')
+const input_content = ref('')
+const input_sum = ref('')
+const input_auto = ref('')
+
+const input_category = ref(null)
+
+const clients_asc = computed(() => clients.value.sort((a, b) => {
+  return b.createdAt - a.createdAt
+}))
+
+const addclient = () => {
+    if(input_content.value.trim() === ''){
+      return
+    }
+    clients.value.push({
+      name: input_name.value,
+      content: input_content.value,
+      sum: input_sum.value,
+      auto: input_auto.value,
+      category: input_category.value,
+      done: false,
+      createdAt: new Date().getTime()
+     })
+
+     console.log("addclient");
+}
+
+const remove = client => {
+  clients.value = clients.value.filter(t => t !== client)
+}
+
+
+
+
+watch(clients, (newVaL) => {
+  localStorage.setItem('clients', JSON.stringify(newVaL))
+  console.log("test");
+}, {deep: true})
+
+
+onMounted(() => {
+  name.value = localStorage.getItem('name') || ''
+  clients.value = JSON.parse(localStorage.getItem('clients'))  || []
+})
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <main class="app">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
+    <section class="create-client">
+      <h3>Dodaj nowego Użytkownika</h3>
 
-  <RouterView />
+      <form @submit.prevent="addclient">
+
+      <input type="text" placeholder="Nazwa użytkownika" v-model="input_name">
+      <input type="text" placeholder="Ostatnio kupione rzeczy " v-model="input_content">
+      <input type="text" placeholder="Ile łącznie wydałeś? " v-model="input_sum">
+      <input type="text" placeholder="Jaki samochód posiadasz? " v-model="input_auto">
+
+        
+
+        <input type="submit" value="Dodaj klienta">
+
+      
+      </form>
+
+    </section>
+      <section class="lista">
+        
+        <h3>Lista kontaktów:</h3> 
+        <div class="list">
+
+          <div v-for="client in clients_asc" :class="`item ${clients.done && 'done'}`">
+            
+
+            <div class="client-content">
+              <p>Imie</p>
+              <input type="text" v-model="client.name">
+              <p>Lista</p>
+              <input type="text" v-model="client.content">
+              <p>Suma kosztów</p>
+              <input type="text" v-model="client.sum">
+              <p>Auto</p>
+              <input type="text" v-model="client.auto">
+            </div>
+
+            <div class="actions">
+              <button @click="remove(client)">Delete</button>
+              <button @click="edit(client)">Edytuj</button>
+            </div>
+
+          </div>
+          
+        </div>
+      </section>
+  </main>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
