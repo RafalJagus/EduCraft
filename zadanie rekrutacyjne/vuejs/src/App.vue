@@ -74,9 +74,13 @@ onMounted(() => {
   clients.value = JSON.parse(localStorage.getItem('clients'))  || []
 }) 
 
-//Funkcja logowania 
+//FRAGMENT KODU ZADANIE VUE fragment kodu
 
+//rrA.filter(x => !arrB.includes(x)).concat(arrB.filter(x => !arrA.includes(x)))
 
+// const uniqueInA = rrA.filter(x => !arrB.includes(x));  filtrowanie tablicy postanowiłem rozpisać na parę linijek zeby było to bardziej czytelne 
+//const uniqueInB = arrB.filter(x => !arrA.includes(x));
+//const result = uniqueInA.concat(uniqueInB);
 
 
 </script>
