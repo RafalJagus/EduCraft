@@ -72,10 +72,14 @@ onMounted(() => {
 
 //Funkcja logowania 
 
+</script>
+<script>
 const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
     error: null,
+    username: '',
+    password: '',
   }),
   actions: {
     login({ state }, { username, password }) {
@@ -97,8 +101,24 @@ const useAuthStore = defineStore('auth', {
   },
 });
 
+export default {
+  data() {
+    return {
+      username: '',
+      password: '',
+    };
+  },
+  methods: {
+    login() {
+      const authStore = useAuthStore();
+      console.log("logowanko")
+      authStore.login({ 
+        username: this.username, password: this.password });
+      console.log("test login");
+    }
+  }
+}
 </script>
-
 <template>
     <div class="login-popup">
     <form @submit.prevent="submit">
