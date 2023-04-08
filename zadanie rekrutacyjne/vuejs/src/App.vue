@@ -1,7 +1,12 @@
 <script setup>
-import{ ref, onMounted, computed, watch} from 'vue'
+import{ ref, onMounted, computed, watch, defineComponent, createApp } from 'vue'
+import { createPinia,defineStore  } from 'pinia';
+import App from './App.vue'
 
+const app = createApp(App)
+const pinia = createPinia()
 
+app.use(pinia)
 
 const clients = ref([])
 const name = ref('')
@@ -10,13 +15,13 @@ const input_name = ref('')
 const input_content = ref('')
 const input_sum = ref('')
 const input_auto = ref('')
-
 const input_category = ref('name')
 
+const username = ref('')
 
 
 const addclient = () => {
-    if(input_content.value.trim() === ''){
+    if(input_content.value.trim() === '' || input_name.value.trim() === ''  || input_auto.value.trim() === ''){ //Dodawanie klientów 
       return
     }
     clients.value.push({
@@ -30,12 +35,11 @@ const addclient = () => {
 
      console.log("addclient");
 }
-
-const remove = client => {
+const remove = client => { // usuwanie klientów
   clients.value = clients.value.filter(t => t !== client)
 }
 
-const clients_sorted = computed(() => {
+const clients_sorted = computed(() => {//Sortowanie klientów po wybranej kategorii
   const category = input_category.value
   if (category === 'name') {
     return clients.value.sort((a, b) => a.name.localeCompare(b.name))
@@ -57,7 +61,7 @@ const clients_sorted = computed(() => {
 watch(clients, (newVaL) => {
   localStorage.setItem('clients', JSON.stringify(newVaL))
   console.log("test");
-}, {deep: true})
+}, {deep: true}) // zapisywanie danych o kliencie w formacie JSON
 
 watch(input_category, (newValue, oldValue) => {
   if (newValue !== oldValue) {
@@ -68,11 +72,15 @@ watch(input_category, (newValue, oldValue) => {
 onMounted(() => {
   name.value = localStorage.getItem('name') || ''
   clients.value = JSON.parse(localStorage.getItem('clients'))  || []
-})
+}) 
 
 //Funkcja logowania 
 
+
+
+
 </script>
+
 <script>
 const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -120,24 +128,21 @@ export default {
 }
 </script>
 <template>
-    <div class="login-popup">
-    <form @submit.prevent="submit">
+  <div class="login-popup">
+    <form @submit.prevent="login">
       <h2>Logowanie</h2>
       <div class="form-group">
         <label for="username">Nazwa użytkownika:</label>
-        <input type="text" id="username" v-model="username">
+        <input type="text" v-model="username">
       </div>
       <div class="form-group">
         <label for="password">Hasło:</label>
-        <input type="password" id="password" v-model="password">
+        <input type="password"  v-model="password">
       </div>
       <button type="submit">Zaloguj</button>
     </form>
   </div>
-
   <main class="app">
-    
-
     <section class="create-client">
       <h3>Dodaj nowego Użytkownika</h3>
 
@@ -189,3 +194,4 @@ export default {
       </section>
   </main>
 </template>
+
