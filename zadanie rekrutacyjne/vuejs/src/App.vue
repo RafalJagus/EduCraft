@@ -68,6 +68,33 @@ onMounted(() => {
   clients.value = JSON.parse(localStorage.getItem('clients'))  || []
 })
 
+//Funkcja logowania 
+
+const useAuthStore = defineStore('auth', {
+  state: () => ({
+    user: null,
+    error: null,
+  }),
+  actions: {
+    login({ state }, { username, password }) {
+      // Tu możesz wprowadzić logikę logowania
+      if (username === '1' && password === '1') {
+        console.log("zalogowany")
+        state.user = { username };
+        state.error = null;
+      } else {
+        state.user = null;
+        state.error = 'Invalid username or password';
+        console.log("nie zalogowany")
+      }
+    },
+    logout({ state }) {
+      state.user = null;
+      state.error = null;
+    },
+  },
+});
+
 </script>
 
 <template>
