@@ -71,8 +71,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="app">
+    <div class="login-popup">
+    <form @submit.prevent="submit">
+      <h2>Logowanie</h2>
+      <div class="form-group">
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" v-model="username">
+      </div>
+      <div class="form-group">
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" v-model="password">
+      </div>
+      <button type="submit">Zaloguj</button>
+    </form>
+  </div>
 
+  <main class="app">
+    
 
     <section class="create-client">
       <h3>Dodaj nowego Użytkownika</h3>
